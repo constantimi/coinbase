@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coinbase.Services.Identity", "Coinbase.Services.Identity.csproj", "{882457DE-C36C-4530-ABF2-DB0C21A0054F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coinbase.Services.Identity.Tests", "..\Coinbase.Services.Identity.Tests\Coinbase.Services.Identity.Tests.csproj", "{532DDC1C-4B24-417D-8684-FE089AB75F78}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{882457DE-C36C-4530-ABF2-DB0C21A0054F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{882457DE-C36C-4530-ABF2-DB0C21A0054F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{882457DE-C36C-4530-ABF2-DB0C21A0054F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{882457DE-C36C-4530-ABF2-DB0C21A0054F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{532DDC1C-4B24-417D-8684-FE089AB75F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{532DDC1C-4B24-417D-8684-FE089AB75F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{532DDC1C-4B24-417D-8684-FE089AB75F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{532DDC1C-4B24-417D-8684-FE089AB75F78}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E8EE2D0-F64A-42CA-8231-CF110FBF38A6}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "vAfdtcNHqLT+vRcU3aoV2l9QU1qrFzwG72SwzaSoe14=",
+  "Source": "Coinbase.Services.Identity",
+  "BasePath": "_content/Coinbase.Services.Identity",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

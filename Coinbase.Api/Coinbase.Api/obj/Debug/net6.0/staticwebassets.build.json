@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "/VbXQq5cjfEg+y6AsFtoeR1k4QOftDFhD1sQC5PlvqY=",
+  "Source": "Coinbase.Api",
+  "BasePath": "_content/Coinbase.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
