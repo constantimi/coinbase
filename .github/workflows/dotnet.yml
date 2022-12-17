@@ -5,7 +5,7 @@ name: .NET
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "development" ]
   pull_request:
     branches: [ "master" ]
 
@@ -21,11 +21,37 @@ jobs:
       with:
         dotnet-version: 6.0.x
         
-    - name: Restore dependencies
+    - name: Restore dependencies Coinbase.Api
       run: dotnet restore
+      working-directory: ./Coinbase.Api/Coinbase.Api
       
-    - name: Build
+    - name: Build Coinbase.Api
       run: dotnet build --no-restore
+      working-directory: ./Coinbase.Api/Coinbase.Api
       
-    - name: Test
+    - name: Restore dependencies Coinbase.Services.Identity
+      run: dotnet restore
+      working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity
+      
+    - name: Build Coinbase.Services.Identity
+      run: dotnet build --no-restore
+      working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity
+      
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+      
+    - name: Test Coinbase.Api.Tests
       run: dotnet test --no-build --verbosity normal
+      working-directory: ./Coinbase.Api/Coinbase.Api.Tests
+      
+    - name: Test Coinbase.Services.Identity.Tests
+      run: dotnet test --no-build --verbosity normal
+      working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity.Tests
