@@ -45,6 +45,7 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"constantimi_Coinbase-Microservices" /o:"constantimi" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
           dotnet build Coinbase.Api\Coinbase.Api\Coinbase.Api.sln
-          dotnet test Coinbase.Api\Coinbase.Api.Tests\Coinbase.Api.Tests.csproj
           
+          dotnet build Coinbase.Services.Identity\Coinbase.Services.Identity\Coinbase.Services.Identity.sln
+        
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
