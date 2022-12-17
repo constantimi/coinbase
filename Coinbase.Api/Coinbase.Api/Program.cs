@@ -4,15 +4,15 @@ using Coinbase.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 {
-    var services = builder.Services;
-    var env = builder.Environment;
+    IServiceCollection services = builder.Services;
+    IWebHostEnvironment env = builder.Environment;
 
-    var assembly = typeof(Program).Assembly.GetName().Name;
-    var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    string? assembly = typeof(Program).Assembly.GetName().Name;
+    string defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
     services.AddCors();
     services.AddDbContext<DataContext>(options =>
@@ -39,7 +39,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IWalletRepository, WalletRepository>();
 }
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();

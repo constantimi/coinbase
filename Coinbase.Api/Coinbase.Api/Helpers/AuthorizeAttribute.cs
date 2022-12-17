@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Coinbase.Api.Models;
@@ -27,6 +26,7 @@ namespace Coinbase.Api.Helpers
 
             // Authorization
             Owner user = (Owner) context.HttpContext.Items["Owner"];
+            
             if (user == null || (_roles.Any() && !_roles.Contains(user.Role)))
             {
                 // Not logged in or role not authorized

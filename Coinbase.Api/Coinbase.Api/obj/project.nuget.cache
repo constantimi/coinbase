@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8UZa9OptfM3pY5k8JVdNu0fl4Az4cUE12DkTBMpMjqR5u48b2H4Kdp+Ym9dWzf2UCIp6WaOdgyhZWPrrcytzWA==",
+  "dgSpecHash": "77ZTokPlJaeRHT9wg3kILsa/CmymjHtuQM+jU0HOJpf8SDlkhlndWIgZNEhW443xR0hktjap7vPYWdttUFCwYw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mihai\\Documents\\Git\\Coinbase-Microservices\\Coinbase.Api\\Coinbase.Api\\Coinbase.Api.csproj",
+  "projectFilePath": "C:\\Users\\mihai\\Documents\\Git\\CoinbaseWallet-Microservices\\Coinbase.Api\\Coinbase.Api\\Coinbase.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mihai\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\mihai\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

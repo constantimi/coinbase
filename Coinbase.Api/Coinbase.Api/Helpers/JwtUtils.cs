@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -37,7 +38,7 @@ namespace Coinbase.Api.Helpers
                 }, out SecurityToken validatedToken);
 
                 JwtSecurityToken jwtToken = (JwtSecurityToken) validatedToken;
-                int ownerId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                int ownerId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value, CultureInfo.CurrentCulture);
 
                 // Return user id from JWT token if validation successful
                 return ownerId;

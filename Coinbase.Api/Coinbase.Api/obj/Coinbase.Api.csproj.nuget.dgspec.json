@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mihai\\Documents\\Git\\Coinbase-Microservices\\Coinbase.Api\\Coinbase.Api\\Coinbase.Api.csproj": {}
+    "C:\\Users\\mihai\\Documents\\Git\\CoinbaseWallet-Microservices\\Coinbase.Api\\Coinbase.Api\\Coinbase.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mihai\\Documents\\Git\\Coinbase-Microservices\\Coinbase.Api\\Coinbase.Api\\Coinbase.Api.csproj": {
+    "C:\\Users\\mihai\\Documents\\Git\\CoinbaseWallet-Microservices\\Coinbase.Api\\Coinbase.Api\\Coinbase.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mihai\\Documents\\Git\\Coinbase-Microservices\\Coinbase.Api\\Coinbase.Api\\Coinbase.Api.csproj",
+        "projectUniqueName": "C:\\Users\\mihai\\Documents\\Git\\CoinbaseWallet-Microservices\\Coinbase.Api\\Coinbase.Api\\Coinbase.Api.csproj",
         "projectName": "Coinbase.Api",
-        "projectPath": "C:\\Users\\mihai\\Documents\\Git\\Coinbase-Microservices\\Coinbase.Api\\Coinbase.Api\\Coinbase.Api.csproj",
+        "projectPath": "C:\\Users\\mihai\\Documents\\Git\\CoinbaseWallet-Microservices\\Coinbase.Api\\Coinbase.Api\\Coinbase.Api.csproj",
         "packagesPath": "C:\\Users\\mihai\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mihai\\Documents\\Git\\Coinbase-Microservices\\Coinbase.Api\\Coinbase.Api\\obj\\",
+        "outputPath": "C:\\Users\\mihai\\Documents\\Git\\CoinbaseWallet-Microservices\\Coinbase.Api\\Coinbase.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
