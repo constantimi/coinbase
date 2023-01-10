@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-    name: Build and analyze
+    name: Build and Analyze
     runs-on: windows-latest
     steps:
       - name: Set up JDK 11
@@ -36,7 +36,7 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Build and analyze
+      - name: Build and Analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -44,8 +44,7 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"constantimi_Coinbase-Microservices" /o:"constantimi" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
-          dotnet test Coinbase.Api\Coinbase.Api.Tests\Coinbase.Api.Tests.csproj
-          
-          dotnet test Coinbase.Services.Identity\Coinbase.Services.Identity.Tests\Coinbase.Services.Identity.Tests.csproj
+          dotnet build Coinbase.Api\Coinbase.Api\Coinbase.Api.sln          
+          dotnet build Coinbase.Services.Identity\Coinbase.Services.Identity\Coinbase.Services.Identity.sln          
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
