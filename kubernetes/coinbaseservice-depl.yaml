@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coinbaseservice-depl
+  labels:
+    app: coinbaseservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coinbaseservice
+  template:
+    metadata:
+      labels:
+        app: coinbaseservice
+    spec:
+      containers:
+      - name: coinbaseservice
+        image: constantimi/coinbase:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coinbase-cluster
+spec:
+  type: ClusterIP
+  selector:
+    app: coinbaseservice
+  ports:
+  - name: coinbaseservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

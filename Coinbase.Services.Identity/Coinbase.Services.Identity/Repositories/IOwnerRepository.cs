@@ -4,7 +4,18 @@ namespace Coinbase.Services.Identity.Repositories
 {
     public interface IOwnerRepository
     {
-        Task<IEnumerable<Owner>> GetAllAsync();
-        Task<Owner> GetByIdAsync(int id);
+        Task<Owner> GetOwnerByIdAsync(int id);
+
+        Task<IEnumerable<Owner>> GetAllOwnersAsync();
+
+        Task<bool> CreateOwnerAsync(Owner owner);
+
+        Task<bool> DeleteOwner(Owner owner);
+
+        Task<bool> UpdateOwner(Owner owner);
+
+        Task<bool> SaveChangesAsync();
+
+        Task<bool> OwnerExists(int id);
     }
 }

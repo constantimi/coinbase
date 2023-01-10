@@ -8,7 +8,7 @@ namespace Coinbase.Services.Identity.Data
     {
         public static void CreateData(IApplicationBuilder app)
         {
-            using (var scope = app.ApplicationServices.CreateScope())
+            using (IServiceScope scope = app.ApplicationServices.CreateScope())
             {
                 SeedData(scope.ServiceProvider.GetRequiredService<DataContext>());
             }
@@ -16,10 +16,10 @@ namespace Coinbase.Services.Identity.Data
 
         private static void SeedData(DataContext context)
         {
-            var testOwners = new List<Owner>
+            List<Owner> testOwners = new()
             {
-                new Owner { Id = 1, FirstName = "Admin", LastName = "Owner", Email="admin@mail.com", Username = "admin", PasswordHash = BCryptNet.HashPassword("admin"), Role = Role.Admin },
-                new Owner { Id = 2, FirstName = "Normal", LastName = "Owner",Email="Owner@mail.com", Username = "user", PasswordHash = BCryptNet.HashPassword("user"), Role = Role.User }
+                new Owner { FirstName = "Admin", LastName = "Owner", Email="admin@mail.com", Username = "admin", PasswordHash = BCryptNet.HashPassword("admin"), Role = Role.Admin },
+                new Owner { FirstName = "Normal", LastName = "Owner",Email="Owner@mail.com", Username = "user", PasswordHash = BCryptNet.HashPassword("user"), Role = Role.User }
             };
 
             context.Owners.AddRange(testOwners);

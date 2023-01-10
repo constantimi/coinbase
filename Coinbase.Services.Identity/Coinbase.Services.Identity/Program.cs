@@ -5,20 +5,23 @@ using Coinbase.Services.Identity.Services;
 using Coinbase.Services.Identity.Repositories;
 using Coinbase.Services.Identity.Data;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to DI container
 {
-    var services = builder.Services;
-    var env = builder.Environment;
+    IServiceCollection services = builder.Services;
+    IWebHostEnvironment env = builder.Environment;
 
     services.AddCors();
     services.AddDbContext<DataContext>();
+
     services.AddControllers().AddJsonOptions(role =>
     {
         // Serialize enums as strings in api responses (e.g. Role)
         role.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+
+    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
@@ -29,18 +32,14 @@ var builder = WebApplication.CreateBuilder(args);
     // configure DI for application services
     services.AddScoped<IJwtUtils, JwtUtils>();
     services.AddScoped<IIdentityService, IdentityService>();
-
     services.AddScoped<IOwnerRepository, OwnerRepository>();
 }
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI(swagger => swagger.SwaggerEndpoint("/swagger/v1/swagger.json", "IdentityService"));
 
 // Global cors policy
 app.UseCors(x => x
@@ -57,7 +56,5 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
-
-DataSeeder.CreateData(app);
 
 app.Run();

@@ -25,9 +25,7 @@ namespace Coinbase.Api.Helpers
             }
 
             // Authorization
-            Owner user = (Owner) context.HttpContext.Items["Owner"];
-            
-            if (user == null || (_roles.Any() && !_roles.Contains(user.Role)))
+            if (context.HttpContext.Items["Owner"] is not Owner user || (_roles.Any() && !_roles.Contains(user.Role)))
             {
                 // Not logged in or role not authorized
                 context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };

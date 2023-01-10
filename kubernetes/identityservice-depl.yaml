@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identityservice-depl
+  labels:
+    app: identityservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identityservice
+  template:
+    metadata:
+      labels:
+        app: identityservice
+    spec:
+      containers:
+      - name: identityservice
+        image: constantimi/identityservice:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identityservice-cluster
+spec:
+  type: ClusterIP
+  selector:
+    app: identityservice
+  ports:
+  - name: identityservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

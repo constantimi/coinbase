@@ -1,36 +1,61 @@
 using Coinbase.Services.Identity.Entities;
 using Coinbase.Services.Identity.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace Coinbase.Services.Identity.Repositories
 {
     public class OwnerRepository : IOwnerRepository
     {
         private readonly DataContext _context;
-        private readonly AppSettings _appSettings;
 
-        public OwnerRepository(DataContext context, IOptions<AppSettings> appSettings)
+        public OwnerRepository(DataContext context)
         {
             _context = context;
-            _appSettings = appSettings.Value;
         }
 
-        public async Task<IEnumerable<Owner>> GetAllAsync()
+        public async Task<Owner> GetOwnerByIdAsync(int id)
+        {
+            Owner owner = await _context.Owners.FirstOrDefaultAsync(o => o.Id == id).ConfigureAwait(false);
+
+            if (owner == null)
+            {
+                throw new KeyNotFoundException("User not found");
+            }
+
+            return owner;
+        }
+
+        public async Task<IEnumerable<Owner>> GetAllOwnersAsync()
         {
             return await _context.Owners.ToListAsync();
         }
 
-        public async Task<Owner> GetByIdAsync(int id)
+        public async Task<bool> CreateOwnerAsync(Owner owner)
         {
-            Owner Owner = await _context.Owners.FindAsync(id);
+            _context.Add(owner);
+            return await SaveChangesAsync();
+        }
 
-            if (Owner == null)
-            {
-                throw new KeyNotFoundException("Owner not found");
-            }
+        public async Task<bool> DeleteOwner(Owner owner)
+        {
+            _context.Remove(owner);
+            return await SaveChangesAsync();
+        }
 
-            return Owner;
+        public async Task<bool> UpdateOwner(Owner owner)
+        {
+            _context.Update(owner);
+            return await SaveChangesAsync();
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync() >= 0;
+        }
+
+        public async Task<bool> OwnerExists(int id)
+        {
+            return await _context.Owners.AnyAsync(o => o.Id == id);
         }
     }
 }

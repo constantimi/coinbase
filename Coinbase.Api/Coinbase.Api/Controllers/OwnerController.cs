@@ -1,9 +1,10 @@
-using AutoMapper;
 using Coinbase.Api.Entities;
 using Coinbase.Api.Helpers;
 using Coinbase.Api.Models;
 using Coinbase.Api.Repositories;
+using Coinbase.Api.Services.SyncDataServices.Http;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace Coinbase.Api.Controllers
 {
@@ -14,35 +15,39 @@ namespace Coinbase.Api.Controllers
     {
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
-        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper)
+
+        private readonly IIdentityDataClient _identityDataClient;
+
+        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper, IIdentityDataClient identityDataClient)
         {
             _ownerRepository = ownerRepository;
             _mapper = mapper;
+
+            _identityDataClient = identityDataClient;
         }
 
         [Authorize(Role.Admin)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OwnerResponse>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<OwnerResponse>>> GetAllOwnersAsync()
         {
-            IEnumerable<Owner> users = await _ownerRepository.GetAllOwnersAsync();
-            return Ok(_mapper.Map<IEnumerable<OwnerResponse>>(users));
+            IEnumerable<Owner> owners = await _ownerRepository.GetAllOwnersAsync();
+            return Ok(_mapper.Map<IEnumerable<OwnerResponse>>(owners));
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<OwnerResponse>> GetUserByIdAsync(int id)
+        public async Task<ActionResult<OwnerResponse>> GetOwnerByIdAsync(int id)
         {
-            // only admins can access other user records
-            Owner currentOwner = (Owner) HttpContext.Items["Owner"];
-            if (id != currentOwner.Id && currentOwner.Role != Role.Admin)
+            // only admins can access other owner records
+            Owner? currentOwner = HttpContext.Items["Owner"] as Owner;
+            if (id != currentOwner?.Id && currentOwner?.Role != Role.Admin)
             {
                 return Unauthorized(new { message = "Unauthorized" });
             }
 
-
-            Owner? user = await _ownerRepository.GetOwnerByIdAsync(id);
-            if (user != null)
+            Owner? owner = await _ownerRepository.GetOwnerByIdAsync(id);
+            if (owner != null)
             {
-                return Ok(_mapper.Map<OwnerResponse>(user));
+                return Ok(_mapper.Map<OwnerResponse>(owner));
             }
 
             return NotFound();
@@ -50,16 +55,15 @@ namespace Coinbase.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<OwnerResponse>> CreateUserAsync(OwnerRequest CoinbaseRequest)
+        public async Task<ActionResult<OwnerResponse>> CreateOwnerAsync(OwnerRequest coinbaseRequest)
         {
-            Owner user = _mapper.Map<Owner>(CoinbaseRequest);
-            await _ownerRepository.CreateOwnerAsync(user);
+            Owner owner = _mapper.Map<Owner>(coinbaseRequest);
+            await _ownerRepository.CreateOwnerAsync(owner);
 
-            OwnerResponse CoinbaseResponse = _mapper.Map<OwnerResponse>(user);
+            OwnerResponse coinbaseResponse = _mapper.Map<OwnerResponse>(owner);
 
-            // return CreatedAtRoute(nameof(GetUserByIdAsync), new { CoinbaseResponse.Id }, CoinbaseResponse);
-
-            return Ok(_mapper.Map<OwnerResponse>(user));
+            await _identityDataClient.SendCoinbaseToIdentity(coinbaseResponse);
+            return Ok(_mapper.Map<OwnerResponse>(owner));
         }
     }
 }

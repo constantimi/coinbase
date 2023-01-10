@@ -1,4 +1,3 @@
-
 using Coinbase.Services.Identity.Entities;
 
 namespace Coinbase.Services.Identity.Models

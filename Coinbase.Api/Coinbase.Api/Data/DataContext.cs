@@ -5,8 +5,8 @@ namespace Coinbase.Api.Data
 {
     public class DataContext : DbContext
     {
-        public DbSet<Owner> Owners { get; set; }
-        public DbSet<Wallet> Wallet { get; set; }
+        public DbSet<Owner> Owners { get; set; } = null!;
+        public DbSet<Wallet> Wallet { get; set; } = null!;
 
         private readonly IConfiguration _configuration;
 
@@ -17,7 +17,6 @@ namespace Coinbase.Api.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // In memory database used for simplicity, change to a real db for production applications
             optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
         }
 

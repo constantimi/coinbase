@@ -6,6 +6,7 @@ using Coinbase.Api.Controllers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Coinbase.Api.Repositories;
+using Coinbase.Api.Services.SyncDataServices.Http;
 
 namespace Coinbase.Api.Tests.Controllers
 {
@@ -13,10 +14,13 @@ namespace Coinbase.Api.Tests.Controllers
     {
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
+        private readonly IIdentityDataClient _identityDataClient;
+
         public OwnerControllerTests()
         {
             _ownerRepository = A.Fake<IOwnerRepository>();
             _mapper = A.Fake<IMapper>();
+            _identityDataClient = A.Fake<IIdentityDataClient>();
         }
 
         [Fact]
@@ -28,7 +32,7 @@ namespace Coinbase.Api.Tests.Controllers
 
             A.CallTo(() => _mapper.Map<IEnumerable<OwnerResponse>>(users)).Returns(response);
 
-            var controller = new OwnerController(_ownerRepository, _mapper);
+            var controller = new OwnerController(_ownerRepository, _mapper, _identityDataClient);
 
             // Act
             var actionResult = controller.GetAllAsync();

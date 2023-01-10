@@ -15,7 +15,8 @@ namespace Coinbase.Api.Repositories
 
         public async Task<Owner> GetOwnerByIdAsync(int id)
         {
-            Owner? owner = await _context.Owners.Include(o => o.Wallets).FirstOrDefaultAsync(o => o.Id == id);
+            Owner? owner = await _context.Owners.Include(o => o.Wallets).FirstOrDefaultAsync(o => o.Id == id).ConfigureAwait(false);
+
             if (owner == null)
             {
                 throw new KeyNotFoundException("User not found");
