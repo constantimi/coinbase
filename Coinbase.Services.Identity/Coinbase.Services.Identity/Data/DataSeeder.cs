@@ -4,7 +4,7 @@ using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace Coinbase.Services.Identity.Data
 {
-    public class DataSeeder
+    public static class DataSeeder
     {
         public static void CreateData(IApplicationBuilder app)
         {

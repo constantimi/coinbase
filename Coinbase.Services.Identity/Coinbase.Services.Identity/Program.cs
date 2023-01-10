@@ -3,37 +3,33 @@ using Coinbase.Services.Identity.Authorization;
 using Coinbase.Services.Identity.Helpers;
 using Coinbase.Services.Identity.Services;
 using Coinbase.Services.Identity.Repositories;
-using Coinbase.Services.Identity.Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to DI container
+IServiceCollection services = builder.Services;
+
+services.AddCors();
+services.AddDbContext<DataContext>();
+
+services.AddControllers().AddJsonOptions(role =>
 {
-    IServiceCollection services = builder.Services;
-    IWebHostEnvironment env = builder.Environment;
+    // Serialize enums as strings in api responses (e.g. Role)
+    role.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
-    services.AddCors();
-    services.AddDbContext<DataContext>();
+services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-    services.AddControllers().AddJsonOptions(role =>
-    {
-        // Serialize enums as strings in api responses (e.g. Role)
-        role.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
-    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// Configure strongly typed settings object
+services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
-    services.AddEndpointsApiExplorer();
-    services.AddSwaggerGen();
-
-    // Configure strongly typed settings object
-    services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-
-    // configure DI for application services
-    services.AddScoped<IJwtUtils, JwtUtils>();
-    services.AddScoped<IIdentityService, IdentityService>();
-    services.AddScoped<IOwnerRepository, OwnerRepository>();
-}
+// configure DI for application services
+services.AddScoped<IJwtUtils, JwtUtils>();
+services.AddScoped<IIdentityService, IdentityService>();
+services.AddScoped<IOwnerRepository, OwnerRepository>();
 
 WebApplication app = builder.Build();
 

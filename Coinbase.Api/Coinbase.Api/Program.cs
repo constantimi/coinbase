@@ -6,35 +6,33 @@ using System.Text.Json.Serialization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services
+IServiceCollection services = builder.Services;
+
+services.AddCors();
+services.AddDbContext<DataContext>();
+
+services.AddControllers().AddJsonOptions(role =>
 {
-    IServiceCollection services = builder.Services;
-    IWebHostEnvironment env = builder.Environment;
+    // Serialize enums as strings in api responses (e.g. Role)
+    role.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
-    services.AddCors();
-    services.AddDbContext<DataContext>();
+services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-    services.AddControllers().AddJsonOptions(role =>
-    {
-        // Serialize enums as strings in api responses (e.g. Role)
-        role.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
-    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// Configure strongly typed settings object
+services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
-    services.AddEndpointsApiExplorer();
-    services.AddSwaggerGen();
+// configure DI for application services
+services.AddScoped<IJwtUtils, JwtUtils>();
+services.AddScoped<IOwnerRepository, OwnerRepository>();
+services.AddScoped<IWalletRepository, WalletRepository>();
 
-    // Configure strongly typed settings object
-    services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+services.AddHttpClient<IIdentityDataClient, HttpIdentityDataClient>();
 
-    // configure DI for application services
-    services.AddScoped<IJwtUtils, JwtUtils>();
-    services.AddScoped<IOwnerRepository, OwnerRepository>();
-    services.AddScoped<IWalletRepository, WalletRepository>();
-
-    services.AddHttpClient<IIdentityDataClient, HttpIdentityDataClient>();
-}
 
 WebApplication app = builder.Build();
 

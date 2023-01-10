@@ -1,11 +1,11 @@
-
 using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace Coinbase.Services.Identity.Helpers
 {
     // custom exception class for throwing application specific exceptions (e.g. for validation) 
     // that can be caught and handled within the application
-    public class AppException : Exception
+    public class AppException : Exception, ISerializable
     {
         public AppException() { }
 

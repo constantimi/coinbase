@@ -1,12 +1,10 @@
-using System;
 using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace Coinbase.Api.Helpers
 {
-    public class AppException : Exception
+    public class AppException : Exception, ISerializable
     {
-
-
         public AppException() { }
 
         public AppException(string message) : base(message) { }

@@ -20,11 +20,6 @@ namespace Coinbase.Api.Data
             optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
-
         public override int SaveChanges()
         {
             ChangeTracker.DetectChanges();

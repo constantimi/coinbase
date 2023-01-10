@@ -23,10 +23,11 @@ namespace Coinbase.Services.Identity.Helpers
                 HttpResponse response = context.Response;
                 response.ContentType = "application/json";
 
+
                 response.StatusCode = error switch
                 {
-                    AppException e => (int) HttpStatusCode.BadRequest,// custom application error
-                    KeyNotFoundException e => (int) HttpStatusCode.NotFound,// not found error
+                    AppException => (int) HttpStatusCode.BadRequest,// custom application error
+                    KeyNotFoundException => (int) HttpStatusCode.NotFound,// not found error
                     _ => (int) HttpStatusCode.InternalServerError,// unhandled error
                 };
 

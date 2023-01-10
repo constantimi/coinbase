@@ -1,2 +1,11 @@
-Coinbase.Api/Coinbase.Api/appsettings.Development.json
-Coinbase.Services.Identity/Coinbase.Services.Identity/appsettings.Development.json
+*appsettings.Development.json
+Coinbase.Api/Coinbase.Api.Tests/bin/
+Coinbase.Api/Coinbase.Api.Tests/obj/
+Coinbase.Api/Coinbase.Api/.vs/
+Coinbase.Api/Coinbase.Api/bin/
+Coinbase.Api/Coinbase.Api/obj/
+Coinbase.Services.Identity/Coinbase.Services.Identity.Tests/bin
+Coinbase.Services.Identity/Coinbase.Services.Identity.Tests/obj/
+Coinbase.Services.Identity/Coinbase.Services.Identity/.vs/
+Coinbase.Services.Identity/Coinbase.Services.Identity/bin/
+Coinbase.Services.Identity/Coinbase.Services.Identity/obj/
