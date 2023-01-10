@@ -35,7 +35,7 @@ namespace Coinbase.Api.Tests.Controllers
             var controller = new OwnerController(_ownerRepository, _mapper, _identityDataClient);
 
             // Act
-            var actionResult = controller.GetAllAsync();
+            var actionResult = controller.GetAllOwnersAsync();
 
             // Assert
             var result = actionResult.Result;
