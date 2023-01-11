@@ -13,7 +13,7 @@ namespace Coinbase.Api.Authorization
 
         public async Task Invoke(HttpContext context, IOwnerRepository ownerRepository, IJwtUtils jwtUtils)
         {
-            string? token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            string token = context.Request.Headers["Authorization"].FirstOrDefault()!.Split(" ").Last();
             int? ownerId = jwtUtils.ValidateJwtToken(token);
             if (ownerId != null)
             {

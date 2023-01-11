@@ -37,7 +37,6 @@ WebApplication app = builder.Build();
 // Configure the HTTP request pipeline.
 if (env.IsDevelopment() || env.IsProduction())
 {
-    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(swagger => swagger.SwaggerEndpoint("/swagger/v1/swagger.json", "CoinbaseService"));
 }

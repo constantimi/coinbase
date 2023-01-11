@@ -16,7 +16,7 @@ namespace Coinbase.Api.Authorization
             _appSettings = appSettings.Value;
         }
 
-        public int? ValidateJwtToken(string? token)
+        public int? ValidateJwtToken(string token)
         {
             if (token == null)
             {

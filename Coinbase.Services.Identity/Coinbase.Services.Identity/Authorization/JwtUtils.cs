@@ -36,7 +36,7 @@ namespace Coinbase.Services.Identity.Authorization
             return tokenHandler.WriteToken(token);
         }
 
-        public int? ValidateJwtToken(string? token)
+        public int? ValidateJwtToken(string token)
         {
             if (token == null)
             {
