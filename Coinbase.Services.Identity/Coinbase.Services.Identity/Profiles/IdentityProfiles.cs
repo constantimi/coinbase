@@ -9,6 +9,9 @@ namespace Coinbase.Services.Identity.Profiles
         public IdentityProfiles()
         {
             CreateMap<Owner, OwnerResponse>();
+            CreateMap<OwnerRequest, Owner>();
+
+            CreateMap<Owner, CoinbaseOwnerResponse>();
         }
     }
 }

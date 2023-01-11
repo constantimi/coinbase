@@ -1,14 +1,10 @@
+using Coinbase.Services.Identity.Entities;
 using System.ComponentModel.DataAnnotations;
-using Coinbase.Api.Models;
 
-namespace Coinbase.Api.Entities
+namespace Coinbase.Services.Identity.Models
 {
-    public class Owner
+    public class CoinbaseOwnerResponse
     {
-        [Key]
-        [Required]
-        public int Id { get; set; }
-
         [Required]
         public string Username { get; set; } = null!;
 
@@ -17,8 +13,5 @@ namespace Coinbase.Api.Entities
 
         [Required]
         public Role Role { get; set; }
-
-        public IEnumerable<Wallet> Wallets { get; set; } = null!;
-
     }
 }

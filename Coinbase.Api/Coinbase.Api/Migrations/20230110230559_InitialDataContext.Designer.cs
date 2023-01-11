@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Coinbase.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230110142831_InitialDataMigration")]
-    partial class InitialDataMigration
+    [Migration("20230110230559_InitialDataContext")]
+    partial class InitialDataContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,7 @@ namespace Coinbase.Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("OwnerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("RecoveryPhrase")
@@ -71,7 +72,9 @@ namespace Coinbase.Api.Migrations
                 {
                     b.HasOne("Coinbase.Api.Entities.Owner", null)
                         .WithMany("Wallets")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Coinbase.Api.Entities.Owner", b =>

@@ -7,7 +7,7 @@ namespace Coinbase.Services.Identity.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("identity/authenticate")]
     public class IdentityController : ControllerBase
     {
         private readonly IIdentityService _jwtTokenService;
@@ -18,8 +18,8 @@ namespace Coinbase.Services.Identity.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("[action]")]
-        public IActionResult Authenticate(AuthenticateRequest model)
+        [HttpPost]
+        public IActionResult AuthenticateAsync(AuthenticateRequest model)
         {
             AuthenticateResponse response = _jwtTokenService.Authenticate(model);
             return Ok(response);

@@ -16,6 +16,6 @@ namespace Coinbase.Services.Identity.Repositories
 
         Task<bool> SaveChangesAsync();
 
-        Task<bool> OwnerExists(int id);
+        Task<bool> OwnerExists(string username);
     }
 }

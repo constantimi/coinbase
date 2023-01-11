@@ -1,29 +1,24 @@
 using Coinbase.Api.Entities;
-using Coinbase.Api.Helpers;
 using Coinbase.Api.Models;
 using Coinbase.Api.Repositories;
-using Coinbase.Api.Services.SyncDataServices.Http;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Coinbase.Api.Authorization;
 
 namespace Coinbase.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("coinbase/owner")]
     public class OwnerController : ControllerBase
     {
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
 
-        private readonly IIdentityDataClient _identityDataClient;
-
-        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper, IIdentityDataClient identityDataClient)
+        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper)
         {
             _ownerRepository = ownerRepository;
             _mapper = mapper;
-
-            _identityDataClient = identityDataClient;
         }
 
         [Authorize(Role.Admin)]
@@ -60,9 +55,6 @@ namespace Coinbase.Api.Controllers
             Owner owner = _mapper.Map<Owner>(coinbaseRequest);
             await _ownerRepository.CreateOwnerAsync(owner);
 
-            OwnerResponse coinbaseResponse = _mapper.Map<OwnerResponse>(owner);
-
-            await _identityDataClient.SendCoinbaseToIdentity(coinbaseResponse);
             return Ok(_mapper.Map<OwnerResponse>(owner));
         }
     }

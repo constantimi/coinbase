@@ -1,6 +1,6 @@
 using Coinbase.Api.Repositories;
 
-namespace Coinbase.Api.Helpers
+namespace Coinbase.Api.Authorization
 {
     public class JwtMiddleware
     {
@@ -13,7 +13,7 @@ namespace Coinbase.Api.Helpers
 
         public async Task Invoke(HttpContext context, IOwnerRepository ownerRepository, IJwtUtils jwtUtils)
         {
-            string token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last() ?? throw new KeyNotFoundException();
+            string? token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             int? ownerId = jwtUtils.ValidateJwtToken(token);
             if (ownerId != null)
             {

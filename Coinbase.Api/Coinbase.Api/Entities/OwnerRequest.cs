@@ -14,6 +14,6 @@ namespace Coinbase.Api.Models
         [Required]
         public Role Role { get; set; }
 
-        public IEnumerable<Wallet>? Wallets { get; set; }
+        public IEnumerable<WalletRequest>? Wallets { get; set; }
     }
 }

@@ -1,13 +1,14 @@
+using Coinbase.Api.Authorization;
 using Coinbase.Api.Data;
 using Coinbase.Api.Helpers;
 using Coinbase.Api.Repositories;
-using Coinbase.Api.Services.SyncDataServices.Http;
 using System.Text.Json.Serialization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services
 IServiceCollection services = builder.Services;
+IWebHostEnvironment env = builder.Environment;
 
 services.AddCors();
 services.AddDbContext<DataContext>();
@@ -31,14 +32,15 @@ services.AddScoped<IJwtUtils, JwtUtils>();
 services.AddScoped<IOwnerRepository, OwnerRepository>();
 services.AddScoped<IWalletRepository, WalletRepository>();
 
-services.AddHttpClient<IIdentityDataClient, HttpIdentityDataClient>();
-
-
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseSwagger();
-app.UseSwaggerUI(swagger => swagger.SwaggerEndpoint("/swagger/v1/swagger.json", "CoinbaseService"));
+if (env.IsDevelopment() || env.IsProduction())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(swagger => swagger.SwaggerEndpoint("/swagger/v1/swagger.json", "CoinbaseService"));
+}
 
 // Global cors policy
 app.UseCors(x => x

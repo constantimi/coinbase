@@ -19,7 +19,7 @@ namespace Coinbase.Api.Repositories
 
             if (owner == null)
             {
-                throw new KeyNotFoundException("User not found");
+                return new Owner();
             }
 
             return owner;

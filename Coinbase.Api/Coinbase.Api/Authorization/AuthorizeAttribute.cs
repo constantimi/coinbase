@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Coinbase.Api.Models;
 using Coinbase.Api.Entities;
 
-namespace Coinbase.Api.Helpers
+namespace Coinbase.Api.Authorization
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter
@@ -25,7 +25,7 @@ namespace Coinbase.Api.Helpers
             }
 
             // Authorization
-            if (context.HttpContext.Items["Owner"] is not Owner user || (_roles.Any() && !_roles.Contains(user.Role)))
+            if (context.HttpContext.Items["Owner"] is not Owner user || _roles.Any() && !_roles.Contains(user.Role))
             {
                 // Not logged in or role not authorized
                 context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };

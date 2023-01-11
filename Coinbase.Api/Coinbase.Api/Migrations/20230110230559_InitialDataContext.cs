@@ -4,7 +4,7 @@
 
 namespace Coinbase.Api.Migrations
 {
-    public partial class InitialDataMigration : Migration
+    public partial class InitialDataContext : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,7 @@ namespace Coinbase.Api.Migrations
                 {
                     ObjectId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RecoveryPhrase = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OwnerId = table.Column<int>(type: "int", nullable: true)
+                    OwnerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,7 +38,8 @@ namespace Coinbase.Api.Migrations
                         name: "FK_Wallet_Owners_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Owners",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

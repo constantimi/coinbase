@@ -32,6 +32,11 @@ namespace Coinbase.Services.Identity.Repositories
 
         public async Task<bool> CreateOwnerAsync(Owner owner)
         {
+            if (await OwnerExists(owner.Username))
+            {
+                return false;
+            }
+
             _context.Add(owner);
             return await SaveChangesAsync();
         }
@@ -53,9 +58,9 @@ namespace Coinbase.Services.Identity.Repositories
             return await _context.SaveChangesAsync() >= 0;
         }
 
-        public async Task<bool> OwnerExists(int id)
+        public async Task<bool> OwnerExists(string username)
         {
-            return await _context.Owners.AnyAsync(o => o.Id == id);
+            return await _context.Owners.AnyAsync(o => o.Username == username);
         }
     }
 }

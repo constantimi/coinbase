@@ -30,7 +30,7 @@ namespace Coinbase.Api.Helpers
                     _ => (int) HttpStatusCode.InternalServerError,// unhandled error
                 };
 
-                string result = JsonSerializer.Serialize(new { message = error?.Message });
+                string result = JsonSerializer.Serialize(new { message = error?.Message});
                 await response.WriteAsync(result);
             }
         }

@@ -2,23 +2,29 @@ using Coinbase.Services.Identity.Authorization;
 using Coinbase.Services.Identity.Entities;
 using Coinbase.Services.Identity.Repositories;
 using Coinbase.Services.Identity.Models;
+using BCryptNet = BCrypt.Net.BCrypt;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Coinbase.Services.Identity.Services.SyncDataServices.Http;
 
 namespace Coinbase.Services.Identity.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("identity/owner")]
     public class OwnerController : ControllerBase
     {
+
+        private readonly IIdentityDataClient _identityDataClient;
+
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
 
-        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper)
+        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper, IIdentityDataClient identityDataClient)
         {
             _ownerRepository = ownerRepository;
             _mapper = mapper;
+            _identityDataClient = identityDataClient;
         }
 
         [Authorize(Role.Admin)]
@@ -46,6 +52,22 @@ namespace Coinbase.Services.Identity.Controllers
             }
 
             return NotFound();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult<OwnerResponse>> CreateOwnerAsync(OwnerRequest coinbaseRequest)
+        {
+            Owner owner = _mapper.Map<Owner>(coinbaseRequest);
+            owner.PasswordHash = BCryptNet.HashPassword(coinbaseRequest.Password);
+
+            if (await _ownerRepository.CreateOwnerAsync(owner))
+            {
+                await _identityDataClient.SendIdentityToCoinbase(_mapper.Map<CoinbaseOwnerResponse>(owner));
+                return Ok(_mapper.Map<OwnerResponse>(owner));
+            }
+
+            return BadRequest();
         }
     }
 }

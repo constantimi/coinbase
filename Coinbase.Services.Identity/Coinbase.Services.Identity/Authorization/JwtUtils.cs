@@ -9,12 +9,6 @@ using System.Globalization;
 
 namespace Coinbase.Services.Identity.Authorization
 {
-    public interface IJwtUtils
-    {
-        public string GenerateJwtToken(Owner owner);
-        public int? ValidateJwtToken(string token);
-    }
-
     public class JwtUtils : IJwtUtils
     {
         private readonly AppSettings _appSettings;
@@ -31,10 +25,9 @@ namespace Coinbase.Services.Identity.Authorization
             JwtSecurityTokenHandler tokenHandler = new();
             byte[] key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
-            CultureInfo provider = new("en-us");
             SecurityTokenDescriptor tokenDescriptor = new()
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("Id", owner.Id.ToString(provider)) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("Id", owner.Id.ToString(CultureInfo.CurrentCulture)) }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -43,15 +36,7 @@ namespace Coinbase.Services.Identity.Authorization
             return tokenHandler.WriteToken(token);
         }
 
-
-        public static Guid ToGuid(int value)
-        {
-            byte[] bytes = new byte[16];
-            BitConverter.GetBytes(value).CopyTo(bytes, 0);
-            return new Guid(bytes);
-        }
-
-        public int? ValidateJwtToken(string token)
+        public int? ValidateJwtToken(string? token)
         {
             if (token == null)
             {
@@ -74,9 +59,7 @@ namespace Coinbase.Services.Identity.Authorization
                 }, out SecurityToken validatedToken);
 
                 JwtSecurityToken jwtToken = (JwtSecurityToken) validatedToken;
-
-                CultureInfo provider = new("en-us");
-                int ownerId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value, provider);
+                int ownerId = int.Parse(jwtToken.Claims.First(x => x.Type == "Id").Value, CultureInfo.CurrentCulture);
 
                 // Return Owner id from JWT token if validation successful
                 return ownerId;

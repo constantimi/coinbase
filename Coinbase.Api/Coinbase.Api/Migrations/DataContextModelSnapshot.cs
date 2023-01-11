@@ -52,6 +52,7 @@ namespace Coinbase.Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("OwnerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("RecoveryPhrase")
@@ -69,7 +70,9 @@ namespace Coinbase.Api.Migrations
                 {
                     b.HasOne("Coinbase.Api.Entities.Owner", null)
                         .WithMany("Wallets")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Coinbase.Api.Entities.Owner", b =>

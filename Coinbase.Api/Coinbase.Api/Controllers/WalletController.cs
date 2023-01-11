@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Coinbase.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("coinbase/wallet")]
     public class WalletController : ControllerBase
     {
         private readonly IWalletRepository _walletRepository;
