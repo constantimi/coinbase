@@ -50,7 +50,7 @@ app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader());
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 // Global error handler
 app.UseMiddleware<ErrorHandlerMiddleware>();

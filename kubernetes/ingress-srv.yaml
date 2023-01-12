@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  rules:
+    - host: coinbase.com
+      http:
+        paths:
+          - path: /identity
+            pathType: Prefix
+            backend:
+              service:
+                name: identityservice-cluster
+                port:
+                  number: 80
+          - path: /coinbase
+            pathType: Prefix
+            backend:
+              service:
+                name: coinbase-cluster
+                port:
+                  number: 80
