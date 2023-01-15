@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Coinbase.Services.Identity.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230115212351_InitialDataContext")]
+    [Migration("20230115224227_InitialDataContext")]
     partial class InitialDataContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
