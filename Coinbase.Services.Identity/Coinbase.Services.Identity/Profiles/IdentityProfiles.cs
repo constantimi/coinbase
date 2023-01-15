@@ -11,7 +11,11 @@ namespace Coinbase.Services.Identity.Profiles
             CreateMap<Owner, OwnerResponse>();
             CreateMap<OwnerRequest, Owner>();
 
+            // Sync Data Transfer
             CreateMap<Owner, CoinbaseOwnerResponse>();
+
+            // Async Data Transfer
+            CreateMap<Owner, PublisherRequest>();
         }
     }
 }

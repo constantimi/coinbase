@@ -1,5 +1,7 @@
+using Coinbase.Api.AsyncDataSubscriber;
 using Coinbase.Api.Authorization;
 using Coinbase.Api.Data;
+using Coinbase.Api.EventProcessing;
 using Coinbase.Api.Helpers;
 using Coinbase.Api.Repositories;
 using System.Text.Json.Serialization;
@@ -19,6 +21,9 @@ services.AddControllers().AddJsonOptions(role =>
     role.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+// Add MessageBusSubscriber
+services.AddHostedService<MessageBusSubscriber>();
+
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 services.AddEndpointsApiExplorer();
@@ -27,10 +32,12 @@ services.AddSwaggerGen();
 // Configure strongly typed settings object
 services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
-// configure DI for application services
+// Configure DI for application services
 services.AddScoped<IJwtUtils, JwtUtils>();
 services.AddScoped<IOwnerRepository, OwnerRepository>();
 services.AddScoped<IWalletRepository, WalletRepository>();
+
+services.AddSingleton<IEventProcessor, EventProcessor>();
 
 WebApplication app = builder.Build();
 

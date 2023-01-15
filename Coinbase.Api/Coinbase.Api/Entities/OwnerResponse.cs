@@ -6,6 +6,8 @@ namespace Coinbase.Api.Models
     {
         public string Id { get; set; } = null!;
 
+        public string ExternalId { get; set; } = null!;
+
         public string Username { get; set; } = null!;
 
         public string Email { get; set; } = null!;

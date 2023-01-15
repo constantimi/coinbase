@@ -16,6 +16,6 @@ namespace Coinbase.Api.Repositories
 
         Task<bool> SaveChangesAsync();
 
-        Task<bool> OwnerExists(int id);
+        Task<bool> ExternalOwnerExists(int id);
     }
 }

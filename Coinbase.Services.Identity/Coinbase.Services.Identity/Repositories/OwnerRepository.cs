@@ -32,13 +32,13 @@ namespace Coinbase.Services.Identity.Repositories
 
         public async Task<bool> CreateOwnerAsync(Owner owner)
         {
-            if (await OwnerExists(owner.Username))
+            if (!await OwnerExists(owner.Username))
             {
-                return false;
+                _context.Add(owner);
+                return await SaveChangesAsync();
             }
 
-            _context.Add(owner);
-            return await SaveChangesAsync();
+            return false;
         }
 
         public async Task<bool> DeleteOwner(Owner owner)
@@ -60,6 +60,7 @@ namespace Coinbase.Services.Identity.Repositories
 
         public async Task<bool> OwnerExists(string username)
         {
+
             return await _context.Owners.AnyAsync(o => o.Username == username);
         }
     }

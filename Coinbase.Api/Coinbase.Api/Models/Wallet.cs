@@ -14,7 +14,7 @@ namespace Coinbase.Api.Entities
         public string RecoveryPhrase { get; set; } = null!;
 
         [Required]
-        [ForeignKey("Owner")]
+        [ForeignKey("ExternalId")]
         public int? OwnerId { get; set; }
     }
 }

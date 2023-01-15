@@ -11,12 +11,16 @@
 
   <ItemGroup>
     <Compile Remove="bin\**" />
+    <Compile Remove="Interfaces\**" />
     <Compile Remove="obj\**" />
     <Content Remove="bin\**" />
+    <Content Remove="Interfaces\**" />
     <Content Remove="obj\**" />
     <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
     <EmbeddedResource Remove="obj\**" />
     <None Remove="bin\**" />
+    <None Remove="Interfaces\**" />
     <None Remove="obj\**" />
   </ItemGroup>
 
@@ -37,11 +41,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

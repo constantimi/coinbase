@@ -15,7 +15,7 @@ namespace Coinbase.Api.Repositories
 
         public async Task<Owner> GetOwnerByIdAsync(int id)
         {
-            Owner? owner = await _context.Owners.Include(o => o.Wallets).FirstOrDefaultAsync(o => o.Id == id).ConfigureAwait(false);
+            Owner? owner = await _context.Owners.Include(o => o.Wallets).FirstOrDefaultAsync(o => o.ExternalId == id).ConfigureAwait(false);
 
             if (owner == null)
             {
@@ -32,8 +32,13 @@ namespace Coinbase.Api.Repositories
 
         public async Task<bool> CreateOwnerAsync(Owner owner)
         {
-            _context.Add(owner);
-            return await SaveChangesAsync();
+            if (!await ExternalOwnerExists(owner.ExternalId))
+            {
+                _context.Add(owner);
+                return await SaveChangesAsync();
+            }
+
+            return false;
         }
 
         public async Task<bool> DeleteOwner(Owner owner)
@@ -53,9 +58,9 @@ namespace Coinbase.Api.Repositories
             return await _context.SaveChangesAsync() >= 0;
         }
 
-        public async Task<bool> OwnerExists(int id)
+        public async Task<bool> ExternalOwnerExists(int id)
         {
-            return await _context.Owners.AnyAsync(o => o.Id == id);
+            return await _context.Owners.AnyAsync(o => o.ExternalId == id);
         }
     }
 }

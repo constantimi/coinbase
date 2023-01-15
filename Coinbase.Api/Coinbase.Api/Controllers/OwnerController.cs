@@ -53,9 +53,13 @@ namespace Coinbase.Api.Controllers
         public async Task<ActionResult<OwnerResponse>> CreateOwnerAsync(OwnerRequest coinbaseRequest)
         {
             Owner owner = _mapper.Map<Owner>(coinbaseRequest);
-            await _ownerRepository.CreateOwnerAsync(owner);
 
-            return Ok(_mapper.Map<OwnerResponse>(owner));
+            if (await _ownerRepository.CreateOwnerAsync(owner))
+            {
+                return Ok(_mapper.Map<OwnerResponse>(owner));
+            };
+
+            return BadRequest();
         }
     }
 }

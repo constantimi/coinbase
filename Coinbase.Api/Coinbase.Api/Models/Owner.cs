@@ -10,6 +10,9 @@ namespace Coinbase.Api.Entities
         public int Id { get; set; }
 
         [Required]
+        public int ExternalId { get; set; }
+
+        [Required]
         public string Username { get; set; } = null!;
 
         [Required]

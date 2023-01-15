@@ -13,6 +13,11 @@ namespace Coinbase.Api.Profiles
 
             CreateMap<Wallet, WalletResponse>();
             CreateMap<WalletRequest, Wallet>();
+
+            // Async Data Transfer
+            CreateMap<PublisherResponse, Owner>()
+                .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

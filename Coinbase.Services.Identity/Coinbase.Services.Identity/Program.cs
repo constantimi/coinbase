@@ -4,6 +4,7 @@ using Coinbase.Services.Identity.Helpers;
 using Coinbase.Services.Identity.Services;
 using Coinbase.Services.Identity.Repositories;
 using Coinbase.Services.Identity.Services.SyncDataServices.Http;
+using Coinbase.Services.Identity.Services.AsyncDataServices;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,7 @@ services.AddScoped<IIdentityService, IdentityService>();
 services.AddScoped<IOwnerRepository, OwnerRepository>();
 
 services.AddHttpClient<IIdentityDataClient, HttpIdentityDataClient>();
+services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
 WebApplication app = builder.Build();
 
