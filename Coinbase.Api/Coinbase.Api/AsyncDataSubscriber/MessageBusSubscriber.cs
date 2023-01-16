@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text;
 using Coinbase.Api.EventProcessing;
+using Coinbase.Api.Helpers;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -10,9 +11,9 @@ namespace Coinbase.Api.AsyncDataSubscriber
     {
         private readonly IConfiguration _configuration;
         private readonly IEventProcessor _eventProcessor;
-        private IConnection _connection;
-        private IModel _channel;
-        private string _queueName;
+        private IConnection _connection = null!;
+        private IModel _channel = null!;
+        private string _queueName = null!;
 
         public MessageBusSubscriber(
            IConfiguration configuration,
@@ -32,15 +33,22 @@ namespace Coinbase.Api.AsyncDataSubscriber
                 Port = int.Parse(_configuration["RabbitMQPort"], CultureInfo.CurrentUICulture.NumberFormat)
             };
 
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
-            _queueName = _channel.QueueDeclare().QueueName;
-            _channel.QueueBind(queue: _queueName,
-                exchange: "trigger",
-                routingKey: "");
+            try
+            {
+                _connection = factory.CreateConnection();
+                _channel = _connection.CreateModel();
+                _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
+                _queueName = _channel.QueueDeclare().QueueName;
+                _channel.QueueBind(queue: _queueName,
+                    exchange: "trigger",
+                    routingKey: "");
 
-            _connection.ConnectionShutdown += RabbitMQ_ConnectionShitdown;
+                _connection.ConnectionShutdown += RabbitMQ_ConnectionShitdown;
+            }
+            catch (AppException)
+            {
+                throw new AppException();
+            }
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)

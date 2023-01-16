@@ -12,7 +12,8 @@ namespace Coinbase.Api.Profiles
             CreateMap<OwnerRequest, Owner>();
 
             CreateMap<Wallet, WalletResponse>();
-            CreateMap<WalletRequest, Wallet>();
+            CreateMap<WalletRequest, Wallet>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             // Async Data Transfer
             CreateMap<PublisherResponse, Owner>()

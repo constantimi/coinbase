@@ -28,13 +28,15 @@ namespace Coinbase.Api.Migrations
                 name: "Wallet",
                 columns: table => new
                 {
-                    ObjectId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ObjectId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RecoveryPhrase = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OwnerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Wallet", x => x.ObjectId);
+                    table.PrimaryKey("PK_Wallet", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Wallet_Owners_OwnerId",
                         column: x => x.OwnerId,

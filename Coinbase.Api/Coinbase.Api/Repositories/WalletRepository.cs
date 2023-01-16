@@ -19,6 +19,14 @@ namespace Coinbase.Api.Repositories
             return await SaveChangesAsync();
         }
 
+        public async Task<bool> CreateWalletAsync(int id, Wallet wallet)
+        {
+            wallet.OwnerId = id;
+
+            _context.Add(wallet);
+            return await SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Wallet>> GetAllWalletsAsync()
         {
             return await _context.Wallet.ToListAsync();

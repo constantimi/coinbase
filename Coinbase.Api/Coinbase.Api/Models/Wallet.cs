@@ -7,7 +7,9 @@ namespace Coinbase.Api.Entities
     {
         [Key]
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
+
+        [Required]
         public string ObjectId { get; set; } = null!;
 
         [Required]
@@ -15,6 +17,6 @@ namespace Coinbase.Api.Entities
 
         [Required]
         [ForeignKey("ExternalId")]
-        public int? OwnerId { get; set; }
+        public int OwnerId { get; set; }
     }
 }

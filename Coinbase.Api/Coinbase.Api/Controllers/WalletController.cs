@@ -1,4 +1,5 @@
 using AutoMapper;
+using Coinbase.Api.Authorization;
 using Coinbase.Api.Entities;
 using Coinbase.Api.Models;
 using Coinbase.Api.Repositories;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coinbase.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("coinbase/wallet")]
     public class WalletController : ControllerBase
@@ -20,6 +22,7 @@ namespace Coinbase.Api.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Role.Admin)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WalletResponse>>> GetAllAsync()
         {
@@ -28,14 +31,17 @@ namespace Coinbase.Api.Controllers
         }
 
         [HttpPost("{id:int}")]
-        public async Task<ActionResult<WalletResponse>> CreateOwnerAsync(int id, WalletRequest walletRequest)
+        public async Task<ActionResult<WalletResponse>> CreateWalletAsync(int id, WalletRequest walletRequest)
         {
             Wallet wallet = _mapper.Map<Wallet>(walletRequest);
 
-            if (await _walletRepository.CreateWalletAsync(wallet))
+            if (await _ownerRepository.ExternalOwnerExists(id))
             {
-                return Ok(_mapper.Map<WalletResponse>(wallet));
-            };
+                if (await _walletRepository.CreateWalletAsync(id, wallet))
+                {
+                    return Ok(_mapper.Map<WalletResponse>(wallet));
+                };
+            }
 
             return BadRequest();
         }
