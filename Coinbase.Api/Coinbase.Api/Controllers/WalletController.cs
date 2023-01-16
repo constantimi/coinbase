@@ -40,7 +40,7 @@ namespace Coinbase.Api.Controllers
                 if (await _walletRepository.CreateWalletAsync(id, wallet))
                 {
                     return Ok(_mapper.Map<WalletResponse>(wallet));
-                };
+                }
             }
 
             return BadRequest();

@@ -72,7 +72,7 @@ namespace Coinbase.Services.Identity.Controllers
                 try
                 {
                     // Send Sync Message
-                    // await _identityDataClient.SendIdentityToCoinbase(_mapper.Map<CoinbaseOwnerResponse>(owner));
+                    await _identityDataClient.SendIdentityToCoinbase(_mapper.Map<CoinbaseOwnerResponse>(owner));
 
                     // Send Async Message
                     PublisherRequest publishedOwner = _mapper.Map<PublisherRequest>(owner);

@@ -21,6 +21,7 @@ namespace Coinbase.Services.Identity.Services.AsyncDataServices
                 HostName = _configuration["RabbitMQHost"],
                 Port = int.Parse(_configuration["RabbitMQPort"], CultureInfo.CurrentUICulture.NumberFormat)
             };
+
             try
             {
                 _connection = factory.CreateConnection();

@@ -57,7 +57,7 @@ namespace Coinbase.Api.Controllers
             if (await _ownerRepository.CreateOwnerAsync(owner))
             {
                 return Ok(_mapper.Map<OwnerResponse>(owner));
-            };
+            }
 
             return BadRequest();
         }
