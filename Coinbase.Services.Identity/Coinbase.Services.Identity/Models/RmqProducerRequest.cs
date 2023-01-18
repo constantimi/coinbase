@@ -2,7 +2,7 @@ using Coinbase.Services.Identity.Entities;
 
 namespace Coinbase.Services.Identity.Models
 {
-    public class PublisherRequest
+    public class RmqProducerRequest
     {
         public int Id { get; set; }
 

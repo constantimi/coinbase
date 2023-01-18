@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Coinbase.Services.Identity.Models
 {
-    public class CoinbaseOwnerResponse
+    public class HttpOwnerResponse
     {
         [Required]
         public string Username { get; set; } = null!;

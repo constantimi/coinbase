@@ -22,7 +22,7 @@ services.AddControllers().AddJsonOptions(role =>
 });
 
 // Add MessageBusSubscriber
-services.AddHostedService<MessageBusSubscriber>();
+services.AddHostedService<RmqMessageBusConsumer>();
 
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

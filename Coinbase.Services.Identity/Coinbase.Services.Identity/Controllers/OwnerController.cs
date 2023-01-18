@@ -5,9 +5,9 @@ using Coinbase.Services.Identity.Models;
 using BCryptNet = BCrypt.Net.BCrypt;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using Coinbase.Services.Identity.Services.SyncDataServices.Http;
 using Coinbase.Services.Identity.Services.AsyncDataServices;
 using Coinbase.Services.Identity.Helpers;
+using Coinbase.Services.Identity.SyncDataServices;
 
 namespace Coinbase.Services.Identity.Controllers
 {
@@ -18,14 +18,14 @@ namespace Coinbase.Services.Identity.Controllers
     {
 
         private readonly IIdentityDataClient _identityDataClient;
-        private readonly IMessageBusClient _messageBusClient;
+        private readonly IRmqMessageBusClient _messageBusClient;
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
 
         public OwnerController(IOwnerRepository ownerRepository,
                                IMapper mapper,
                                IIdentityDataClient identityDataClient,
-                               IMessageBusClient messageBusClient)
+                               IRmqMessageBusClient messageBusClient)
         {
             _ownerRepository = ownerRepository;
             _mapper = mapper;
@@ -72,10 +72,10 @@ namespace Coinbase.Services.Identity.Controllers
                 try
                 {
                     // Send Sync Message
-                    await _identityDataClient.SendIdentityToCoinbase(_mapper.Map<CoinbaseOwnerResponse>(owner));
+                    await _identityDataClient.SendIdentityToCoinbase(_mapper.Map<HttpOwnerResponse>(owner));
 
                     // Send Async Message
-                    PublisherRequest publishedOwner = _mapper.Map<PublisherRequest>(owner);
+                    RmqProducerRequest publishedOwner = _mapper.Map<RmqProducerRequest>(owner);
                     publishedOwner.Event = "Owner_Published";
                     _messageBusClient.PublishNewOwner(publishedOwner);
                 }

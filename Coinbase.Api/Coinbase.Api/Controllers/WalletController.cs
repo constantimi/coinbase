@@ -1,7 +1,6 @@
 using AutoMapper;
 using Coinbase.Api.Authorization;
 using Coinbase.Api.Entities;
-using Coinbase.Api.Models;
 using Coinbase.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +21,7 @@ namespace Coinbase.Api.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Role.Admin)]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WalletResponse>>> GetAllAsync()
         {
@@ -30,6 +29,7 @@ namespace Coinbase.Api.Controllers
             return Ok(_mapper.Map<IEnumerable<WalletResponse>>(wallets));
         }
 
+        [AllowAnonymous]
         [HttpPost("{id:int}")]
         public async Task<ActionResult<WalletResponse>> CreateWalletAsync(int id, WalletRequest walletRequest)
         {
@@ -41,6 +41,31 @@ namespace Coinbase.Api.Controllers
                 {
                     return Ok(_mapper.Map<WalletResponse>(wallet));
                 }
+            }
+
+            return BadRequest();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{ownerId:int}")]
+        public ActionResult<IEnumerable<WalletResponse>> GetAllWalletsByOwnerId(int ownerId)
+        {
+            IEnumerable<Wallet> walletList = _walletRepository.GetAllWalletsByOwnerId(ownerId);
+            if (walletList.Any())
+            {
+                return Ok(_mapper.Map<IEnumerable<WalletResponse>>(walletList));
+            }
+
+            return NotFound();
+        }
+
+        [AllowAnonymous]
+        [HttpPost("delete/{objectId}")]
+        public async Task<ActionResult> DeleteWalletByObjectIdAsync(string objectId)
+        {
+            if (await _walletRepository.DeleteWallet(objectId))
+            {
+                return Ok();
             }
 
             return BadRequest();

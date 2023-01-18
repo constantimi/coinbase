@@ -2,7 +2,7 @@ using Coinbase.Services.Identity.Models;
 using System.Text.Json;
 using System.Text;
 
-namespace Coinbase.Services.Identity.Services.SyncDataServices.Http
+namespace Coinbase.Services.Identity.SyncDataServices
 {
     public class HttpIdentityDataClient : IIdentityDataClient
     {
@@ -15,7 +15,7 @@ namespace Coinbase.Services.Identity.Services.SyncDataServices.Http
             _configuration = configuration;
         }
 
-        public async Task SendIdentityToCoinbase(CoinbaseOwnerResponse response)
+        public async Task SendIdentityToCoinbase(HttpOwnerResponse response)
         {
             StringContent httpContent = new(
                 JsonSerializer.Serialize(response),

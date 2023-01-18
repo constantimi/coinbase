@@ -53,7 +53,7 @@ namespace Coinbase.Api.EventProcessing
             {
                 IOwnerRepository ownerReporistory = scope.ServiceProvider.GetRequiredService<IOwnerRepository>();
 
-                PublisherResponse? publishedOwner = JsonSerializer.Deserialize<PublisherResponse>(message);
+                RmqProducerResponse? publishedOwner = JsonSerializer.Deserialize<RmqProducerResponse>(message);
 
                 try
                 {

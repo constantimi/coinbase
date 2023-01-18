@@ -4,7 +4,7 @@ namespace Coinbase.Api.Repositories
 {
     public interface IWalletRepository
     {
-        Task<Wallet> GetWalletByIdAsync(string id);
+        IEnumerable<Wallet> GetAllWalletsByOwnerId(int id);
 
         Task<IEnumerable<Wallet>> GetAllWalletsAsync();
 
@@ -12,7 +12,9 @@ namespace Coinbase.Api.Repositories
 
         Task<bool> CreateWalletAsync(int id, Wallet wallet);
 
-        Task<bool> DeleteWallet(Wallet wallet);
+        Task<bool> DeleteWalletByObjectId(string objectId);
+
+        Task<bool> DeleteWallet(string Id);
 
         Task<bool> UpdateWallet(Wallet wallet);
 

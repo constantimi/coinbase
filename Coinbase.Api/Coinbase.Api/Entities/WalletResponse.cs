@@ -6,6 +6,10 @@ namespace Coinbase.Api.Entities
 
         public string RecoveryPhrase { get; set; } = null!;
 
-        public int? OwnerId { get; set; }
+        public string BlockchainType { get; set; } = null!;
+
+        public string WalletType { get; set; } = null!;
+
+        public int OwnerId { get; set; }
     }
 }

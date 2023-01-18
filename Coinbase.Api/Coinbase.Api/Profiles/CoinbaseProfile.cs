@@ -16,7 +16,7 @@ namespace Coinbase.Api.Profiles
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             // Async Data Transfer
-            CreateMap<PublisherResponse, Owner>()
+            CreateMap<RmqProducerResponse, Owner>()
                 .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
         }

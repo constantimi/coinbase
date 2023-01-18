@@ -2,7 +2,7 @@ using Coinbase.Api.Models;
 
 namespace Coinbase.Api.Entities
 {
-    public class PublisherResponse
+    public class RmqProducerResponse
     {
         public int Id { get; set; }
 
