@@ -1,4 +1,4 @@
-name: .NET Production 
+name: .NET Coinbase
 
 on:
   workflow_dispatch:
