@@ -1,17 +1,14 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: .NET Development
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "master", "development" ]
   pull_request:
     branches: [ "master" ]
 
 jobs:
-  Build:
-
+  Restore:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,20 +22,29 @@ jobs:
       run: dotnet restore
       working-directory: ./Coinbase.Api/Coinbase.Api
       
-    - name: Build Coinbase.Api
-      run: dotnet build --no-restore
-      working-directory: ./Coinbase.Api/Coinbase.Api
-      
     - name: Restore dependencies Coinbase.Services.Identity
       run: dotnet restore
       working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity
+      
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+      
+    - name: Build Coinbase.Api
+      run: dotnet build --no-restore
+      working-directory: ./Coinbase.Api/Coinbase.Api
       
     - name: Build Coinbase.Services.Identity
       run: dotnet build --no-restore
       working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity
       
   Test:
-
     runs-on: ubuntu-latest
 
     steps:
