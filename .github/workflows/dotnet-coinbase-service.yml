@@ -1,4 +1,4 @@
-name: .NET Development
+name: .NET Coinbase.Api Development
 
 on:
   workflow_dispatch:
@@ -22,17 +22,9 @@ jobs:
       run: dotnet restore
       working-directory: ./Coinbase.Api/Coinbase.Api
       
-    - name: Restore dependencies Coinbase.Services.Identity
-      run: dotnet restore
-      working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity
-      
     - name: Build Coinbase.Api
       run: dotnet build --no-restore
       working-directory: ./Coinbase.Api/Coinbase.Api
-      
-    - name: Build Coinbase.Services.Identity
-      run: dotnet build --no-restore
-      working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity
       
   Test:
     runs-on: ubuntu-latest
@@ -47,7 +39,3 @@ jobs:
     - name: Test Coinbase.Api.Tests
       run: dotnet test --no-build --verbosity normal
       working-directory: ./Coinbase.Api/Coinbase.Api.Tests
-      
-    - name: Test Coinbase.Services.Identity.Tests
-      run: dotnet test --no-build --verbosity normal
-      working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity.Tests
