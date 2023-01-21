@@ -1,4 +1,4 @@
-name: .NET Coinbase.Services.Identity Dev
+name: .NET Coinbase.Services.Identity
 
 on:
   workflow_dispatch:
