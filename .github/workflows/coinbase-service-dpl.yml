@@ -1,4 +1,4 @@
-name: .NET Coinbase
+name: Publish .NET Coinbase.Api 
 
 on:
   workflow_dispatch:
