@@ -8,16 +8,21 @@ on:
     branches: [ "master" ]
 
 env:
-  AZURE_WEBAPP_COINBASE_NAME: coinbase-service
-  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
+  AZURE_WEBAPP_NAME: coinbase-service
+  AZURE_WEBAPP_PATH: '.'
 
 jobs:
-  publish:
+  build-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v3
       
+      - name: Login via Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+       
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -30,11 +35,10 @@ jobs:
         run: dotnet build ./Coinbase.Api/Coinbase.Api --configuration Release --no-restore
         
       - name: Publish
-        run: dotnet publish ./Coinbase.Api/Coinbase.Api --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        run: dotnet publish ./Coinbase.Api/Coinbase.Api --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PATH }}/${{ env.AZURE_WEBAPP_NAME}}'
         
-      - name: Deployment
+      - name: Deploy
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ env.AZURE_WEBAPP_COINBASE_NAME }}
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: '${{ env.AZURE_WEBAPP_PATH }}/${{ env.AZURE_WEBAPP_NAME}}'
