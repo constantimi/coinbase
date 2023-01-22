@@ -1,4 +1,4 @@
-name: Publish .NET Coinbase.Api 
+name: Deploy Coinbase.Api 
 
 on:
   push:
@@ -23,13 +23,13 @@ jobs:
           dotnet-version: '6.0.x'
 
       - name: Restore
-        run: dotnet restore ./Coinbase.Api/Coinbase.Api.sln
+        run: dotnet restore ./Coinbase.Api/Coinbase.Api/Coinbase.Api.sln
 
       - name: Build
-        run: dotnet build ./Coinbase.Api/Coinbase.Api.sln --configuration Release --no-restore
+        run: dotnet build ./Coinbase.Api/Coinbase.Api/Coinbase.Api.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./Coinbase.Api/Coinbase.Api.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        run: dotnet publish ./Coinbase.Api/Coinbase.Api/Coinbase.Api.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
       - name: Deployment
         uses: azure/webapps-deploy@v2
