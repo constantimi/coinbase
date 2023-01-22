@@ -24,13 +24,13 @@ jobs:
           include-prerelease: true
       
       - name: Restore
-        run: dotnet restore ./Coinbase.Api/Coinbase.Api
+        run: dotnet restore ./Coinbase.Api/Coinbase.Api/Coinbase.Api.sln
         
       - name: Build
-        run: dotnet build ./Coinbase.Api/Coinbase.Api --configuration Release --no-restore
+        run: dotnet build ./Coinbase.Api/Coinbase.Api/Coinbase.Api.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./Coinbase.Api/Coinbase.Api --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        run: dotnet publish ./Coinbase.Api/Coinbase.Api/Coinbase.Api.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -57,4 +57,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+          package: './publish/'
