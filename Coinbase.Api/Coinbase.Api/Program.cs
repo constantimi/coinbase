@@ -42,17 +42,17 @@ services.AddSingleton<IEventProcessor, EventProcessor>();
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (env.IsDevelopment() || env.IsProduction())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(swagger => swagger.SwaggerEndpoint("/swagger/v1/swagger.json", "CoinbaseService"));
-}
+app.UseSwagger();
+app.UseSwaggerUI(swagger => swagger.SwaggerEndpoint("/swagger/v1/swagger.json", "CoinbaseService"));
+
 
 // Global cors policy
 app.UseCors(x => x
     .AllowAnyOrigin()
     .AllowAnyMethod()
     .AllowAnyHeader());
+
+app.UseHttpsRedirection();
 
 // Global error handler
 app.UseMiddleware<ErrorHandlerMiddleware>();
