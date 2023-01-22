@@ -7,25 +7,37 @@ on:
     branches: [ "master" ]
 
 env:
-  AZURE_WEBAPP_NAME: 'coinbase-service'
+  AZURE_WEBAPP_NAME: coinbase-service
   AZURE_WEBAPP_PATH: '.'
 
 jobs:
+  deploy-infrastructure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      
+      - uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+
+      - uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTIONID }}
+          resourceGroupName: Coinbase
+          template: ./templates/azuredeploy.json
+
   build-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Login via Azure CLI
-        uses: azure/login@v1
-        with:
-          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+      - uses: actions/checkout@master
        
+       # Setup .NET SDK
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '6.x.x'
           
       - name: Restore
         run: dotnet restore ./Coinbase.Api/Coinbase.Api
@@ -36,6 +48,7 @@ jobs:
       - name: Publish
         run: dotnet publish ./Coinbase.Api/Coinbase.Api --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PATH }}/${{ env.AZURE_WEBAPP_NAME}}'
         
+      # Deploy to Azure Web apps
       - name: Deploy
         uses: azure/webapps-deploy@v2
         with:
