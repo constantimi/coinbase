@@ -35,12 +35,9 @@ namespace Coinbase.Api.Controllers
         {
             Wallet wallet = _mapper.Map<Wallet>(walletRequest);
 
-            if (await _ownerRepository.ExternalOwnerExists(id))
+            if (await _ownerRepository.ExternalOwnerExists(id) && await _walletRepository.CreateWalletAsync(id, wallet))
             {
-                if (await _walletRepository.CreateWalletAsync(id, wallet))
-                {
-                    return Ok(_mapper.Map<WalletResponse>(wallet));
-                }
+                return Ok(_mapper.Map<WalletResponse>(wallet));
             }
 
             return BadRequest();
@@ -48,9 +45,9 @@ namespace Coinbase.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("{ownerId:int}")]
-        public ActionResult<IEnumerable<WalletResponse>> GetAllWalletsByOwnerId(int ownerId)
+        public async Task<ActionResult<IEnumerable<WalletResponse>>> GetAllWalletsByOwnerIdAsync(int ownerId)
         {
-            IEnumerable<Wallet> walletList = _walletRepository.GetAllWalletsByOwnerId(ownerId);
+            IEnumerable<Wallet> walletList = await _walletRepository.GetAllWalletsByOwnerIdAsync(ownerId);
             if (walletList.Any())
             {
                 return Ok(_mapper.Map<IEnumerable<WalletResponse>>(walletList));

@@ -54,9 +54,9 @@ namespace Coinbase.Api.Repositories
             return wallet;
         }
 
-        public IEnumerable<Wallet> GetAllWalletsByOwnerId(int id)
+        public async Task<IEnumerable<Wallet>> GetAllWalletsByOwnerIdAsync(int id)
         {
-            return _context.Wallet.ToList().Where(w => w.OwnerId == id);
+            return await _context.Wallet.Where(w => w.OwnerId == id).ToListAsync();
         }
 
         public async Task<bool> SaveChangesAsync()

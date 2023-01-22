@@ -39,12 +39,12 @@ namespace Coinbase.Api.AsyncDataSubscriber
                     Port = int.Parse(_configuration["RabbitMQPort"], CultureInfo.CurrentUICulture.NumberFormat)
                 };
 
-                if (_connection == null || _connection.IsOpen == false)
+                if (_connection == null || _connection.IsOpen)
                 {
                     _connection = connectionFactory.CreateConnection();
                 }
 
-                if (Channel == null || Channel.IsOpen == false)
+                if (Channel == null || Channel.IsOpen)
                 {
                     Channel = _connection.CreateModel();
 
@@ -113,6 +113,8 @@ namespace Coinbase.Api.AsyncDataSubscriber
         }
 
         private void RabbitMQ_ConnectionShutdown(object? sender, ShutdownEventArgs e)
-        { }
+        { 
+            _logger.LogCritical(e.ReplyText, "RabbitMQ connection shutdown");
+        }
     }
 }
