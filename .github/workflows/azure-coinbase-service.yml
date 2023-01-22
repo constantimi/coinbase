@@ -50,8 +50,8 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
         
-    - name: Test Coinbase.Api.Tests
-      run: dotnet test --no-build --verbosity normal
+    - name: Test
+      run: dotnet test ./Coinbase.Api/Coinbase.Api --no-build --verbosity normal
           
   deploy:
     runs-on: ubuntu-latest
