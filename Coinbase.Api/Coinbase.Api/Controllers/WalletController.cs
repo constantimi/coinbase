@@ -21,7 +21,6 @@ namespace Coinbase.Api.Controllers
             _mapper = mapper;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WalletResponse>>> GetAllAsync()
         {
@@ -29,7 +28,6 @@ namespace Coinbase.Api.Controllers
             return Ok(_mapper.Map<IEnumerable<WalletResponse>>(wallets));
         }
 
-        [AllowAnonymous]
         [HttpPost("{id:int}")]
         public async Task<ActionResult<WalletResponse>> CreateWalletAsync(int id, WalletRequest walletRequest)
         {
@@ -43,7 +41,6 @@ namespace Coinbase.Api.Controllers
             return BadRequest();
         }
 
-        [AllowAnonymous]
         [HttpGet("{ownerId:int}")]
         public async Task<ActionResult<IEnumerable<WalletResponse>>> GetAllWalletsByOwnerIdAsync(int ownerId)
         {
@@ -56,7 +53,6 @@ namespace Coinbase.Api.Controllers
             return NotFound();
         }
 
-        [AllowAnonymous]
         [HttpPost("delete/{objectId}")]
         public async Task<ActionResult> DeleteWalletByObjectIdAsync(string objectId)
         {

@@ -48,7 +48,6 @@ namespace Coinbase.Api.Controllers
             return NotFound();
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<OwnerResponse>> CreateOwnerAsync(OwnerRequest coinbaseRequest)
         {

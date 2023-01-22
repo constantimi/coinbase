@@ -22,7 +22,7 @@ namespace Coinbase.Services.Identity.SyncDataServices
                 Encoding.UTF8,
                 "application/json");
 
-            await _httpClient.PostAsync(_configuration["CoinbaseServiceUrl"], httpContent);
+            await _httpClient.PostAsync(_configuration["HttpCoinbaseServiceUrl"], httpContent);
         }
     }
 }
