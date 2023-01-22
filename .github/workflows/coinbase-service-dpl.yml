@@ -1,14 +1,13 @@
 name: Publish .NET Coinbase.Api 
 
 on:
-  workflow_dispatch:
   push:
     branches: [ "master", "development" ]
   pull_request:
     branches: [ "master" ]
 
 env:
-  AZURE_WEBAPP_NAME: coinbase-service
+  AZURE_WEBAPP_NAME: 'coinbase-service'
   AZURE_WEBAPP_PATH: '.'
 
 jobs:
@@ -21,7 +20,7 @@ jobs:
       - name: Login via Azure CLI
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
        
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -40,5 +39,5 @@ jobs:
       - name: Deploy
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          app-name: '${{ env.AZURE_WEBAPP_NAME }}'
           package: '${{ env.AZURE_WEBAPP_PATH }}/${{ env.AZURE_WEBAPP_NAME}}'
