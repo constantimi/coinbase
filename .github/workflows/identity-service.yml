@@ -17,17 +17,19 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
-      
+        
     - name: Restore dependencies Coinbase.Services.Identity
       run: dotnet restore
+      working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity
       
     - name: Build Coinbase.Services.Identity
       run: dotnet build --no-restore
+      working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity
       
   test:
     runs-on: ubuntu-latest
     needs: build
-    
+
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -35,5 +37,6 @@ jobs:
       with:
         dotnet-version: 6.0.x
       
-    - name: Test Coinbase.Services.Identity.Tests
-      run: dotnet test ./Coinbase.Services.Identity/Coinbase.Services.Identity.Tests --no-build --verbosity normal
+    - name: Test Coinbase.Services.Identity
+      run: dotnet test --no-build --verbosity normal
+      working-directory: ./Coinbase.Services.Identity/Coinbase.Services.Identity.Tests
