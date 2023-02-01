@@ -32,13 +32,6 @@ namespace Coinbase.Api.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<OwnerResponse>> GetOwnerByIdAsync(int id)
         {
-            // only admins can access other owner records
-            Owner? currentOwner = HttpContext.Items["Owner"] as Owner;
-            if (id != currentOwner?.Id && currentOwner?.Role != Role.Admin)
-            {
-                return Unauthorized(new { message = "Unauthorized" });
-            }
-
             Owner? owner = await _ownerRepository.GetOwnerByIdAsync(id);
             if (owner != null)
             {
