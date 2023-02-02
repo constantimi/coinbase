@@ -21,7 +21,7 @@ namespace Coinbase.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WalletResponse>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<WalletResponse>>> GetAllWalletsAsync()
         {
             IEnumerable<Wallet> wallets = await _walletRepository.GetAllWalletsAsync();
             return Ok(_mapper.Map<IEnumerable<WalletResponse>>(wallets));

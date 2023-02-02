@@ -33,12 +33,30 @@ namespace Coinbase.Api.Tests.Controllers
             var controller = new WalletController(_walletRepository,_ownerRepository, _mapper);
 
             // Act
-            var actionResult = controller.GetAllAsync();
+            var actionResult = controller.GetAllWalletsAsync();
 
             // Assert
             var result = actionResult.Result;
             result.Should().NotBeNull();
             result.Result.Should().BeOfType(typeof(OkObjectResult));
+        }
+
+        [Fact]
+        public void WalletController_CreateWallet()
+        {
+
+        }
+
+        [Fact]
+        public void WalletController_GetAllWalletsByOwnerId()
+        {
+
+        }
+
+        [Fact]
+        public void WalletController_DeleteWalletByObjectId()
+        {
+
         }
     }
 }
