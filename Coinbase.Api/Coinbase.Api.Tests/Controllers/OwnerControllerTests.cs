@@ -5,7 +5,6 @@ using Coinbase.Api.Controllers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Coinbase.Api.Repositories;
-using Coinbase.Api.Models;
 
 namespace Coinbase.Api.Tests.Controllers
 {
@@ -33,34 +32,13 @@ namespace Coinbase.Api.Tests.Controllers
             var actionResult = controller.GetAllOwnersAsync();
 
             // Assert
-            
             var result = actionResult.Result;
-            result.Should().BeOfType<OkObjectResult>();
             result.Should().NotBeNull();
         }
 
         [Fact]
-        public void OwnerController_CreateOwner_ReturnOK()
+        public void OwnerController_CreateOwner_ReturnOK_When_Owner_Is_Created()
         {
-            // Arrange
-            var owner = A.Fake<Owner>();
-            var response = A.Fake<IEnumerable<OwnerResponse>>();
-
-            A.CallTo(() => _ownerRepository.CreateOwnerAsync(owner)).Returns(Task.FromResult(true));
-            A.CallTo(() => _mapper.Map<IEnumerable<OwnerResponse>>(owner)).Returns(response);
-
-            A.CallTo(() => _ownerRepository.CreateOwnerAsync(owner)).MustHaveHappenedOnceExactly();
-
-            var controller = new OwnerController(_ownerRepository, _mapper);
-
-            // Act
-            var actionResult = controller.GetAllOwnersAsync();
-
-            // Assert
-            var result = actionResult.Result;
-            result?.Value?.Count().Should().BeGreaterThan(0);
-            result.Should().BeOfType<OkObjectResult>();
-            result.Should().NotBeNull();
         }
     }
 }

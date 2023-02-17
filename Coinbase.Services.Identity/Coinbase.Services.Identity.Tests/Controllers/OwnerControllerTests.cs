@@ -50,5 +50,17 @@ namespace Coinbase.Services.Identity.Tests.Controllers
             result.Should().NotBeNull();
             result.Result.Should().BeOfType(typeof(OkObjectResult));
         }
+
+        [Fact]
+        public void OwnerController_CreateOwner_ReturnOK_When_Owner_Is_Created()
+        {
+
+        }
+
+        [Fact]
+        public void OwnerController_CreateOwner_Returns_JWT_When_Created()
+        {
+
+        }
     }
 }

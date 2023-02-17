@@ -42,7 +42,7 @@ namespace Coinbase.Api.Tests.Controllers
         }
 
         [Fact]
-        public void WalletController_CreateWallet()
+        public void WalletController_CreateWallet_ReturnOK_When_Wallet_Is_Created()
         {
 
         }
