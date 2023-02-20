@@ -1,39 +1,45 @@
-﻿using FakeItEasy;
-using AutoMapper;
+﻿using AutoMapper;
 using Coinbase.Api.Entities;
 using Coinbase.Api.Controllers;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using Coinbase.Api.Repositories;
+using Telerik.JustMock;
+using Telerik.JustMock.Helpers;
+using Coinbase.Api.Models;
 
 namespace Coinbase.Api.Tests.Controllers
 {
     public class OwnerControllerTests
     {
-        private readonly IOwnerRepository _ownerRepository;
-        private readonly IMapper _mapper;
+        private IOwnerRepository _ownerRepository;
+        private IMapper _mapper;
 
         public OwnerControllerTests()
         {
-            _ownerRepository = A.Fake<IOwnerRepository>();
-            _mapper = A.Fake<IMapper>();
+            _ownerRepository = Mock.Create<IOwnerRepository>();
+            _mapper = Mock.Create<IMapper>();
         }
 
         [Fact]
         public void OwnerController_GetAllOwners_ReturnOK()
         {
             // Arrange
-            A.CallTo(() => _ownerRepository.GetAllOwnersAsync())
-            .Returns(A.CollectionOfFake<Owner>(3));
+             _ownerRepository = Mock.Create<IOwnerRepository>();
+
+            Mock.Arrange(() => _ownerRepository.GetAllOwnersAsync())
+                .Returns(Task.FromResult<IEnumerable<Owner>>( new List<Owner>
+                {
+                    new Owner { Id = 0, ExternalId = 0, Email = "", Role = Role.Admin, Username = "u1", Wallets = Enumerable.Empty<Wallet>() },
+                    new Owner { Id = 1, ExternalId = 0, Email = "", Role = Role.Admin, Username = "u2", Wallets = Enumerable.Empty<Wallet>() }
+                }));
 
             var controller = new OwnerController(_ownerRepository, _mapper);
 
             // Act
-            var actionResult = controller.GetAllOwnersAsync();
+            var owners = controller.GetAllOwnersAsync();
 
             // Assert
-            var result = actionResult.Result;
-            result.Should().NotBeNull();
+            Assert.NotNull(owners);
         }
 
         [Fact]

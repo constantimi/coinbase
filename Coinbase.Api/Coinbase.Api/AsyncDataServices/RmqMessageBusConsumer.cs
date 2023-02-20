@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.Text;
-using System.Threading.Channels;
 using Coinbase.Api.EventProcessing;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -56,7 +55,7 @@ namespace Coinbase.Api.AsyncDataSubscriber
 
                     _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
                 }
-            }                
+            }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "Cannot connect to RabbitMQ channel");
@@ -113,8 +112,8 @@ namespace Coinbase.Api.AsyncDataSubscriber
         }
 
         private void RabbitMQ_ConnectionShutdown(object? sender, ShutdownEventArgs e)
-        { 
-            _logger.LogCritical(e.ReplyText, "RabbitMQ connection shutdown");
+        {
+            _logger.LogCritical(message: e.ReplyText, "RabbitMQ connection shutdown");
         }
     }
 }

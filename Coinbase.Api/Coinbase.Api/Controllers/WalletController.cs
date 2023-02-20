@@ -1,5 +1,4 @@
 using AutoMapper;
-using Coinbase.Api.Authorization;
 using Coinbase.Api.Entities;
 using Coinbase.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
