@@ -31,7 +31,7 @@ namespace Coinbase.Api.Controllers
         {
             Wallet wallet = _mapper.Map<Wallet>(walletRequest);
 
-            if (await _ownerRepository.ExternalOwnerExists(id) && await _walletRepository.CreateWalletAsync(id, wallet))
+            if (await _walletRepository.CreateWalletAsync(id, wallet))
             {
                 return Ok(_mapper.Map<WalletResponse>(wallet));
             }
@@ -54,7 +54,7 @@ namespace Coinbase.Api.Controllers
         [HttpPost("delete/{objectId}")]
         public async Task<ActionResult> DeleteWalletByObjectIdAsync(string objectId)
         {
-            if (await _walletRepository.DeleteWallet(objectId))
+            if (await _walletRepository.DeleteWalletAsync(objectId))
             {
                 return Ok();
             }
