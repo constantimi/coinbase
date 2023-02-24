@@ -10,9 +10,6 @@ namespace Coinbase.Api.Repositories
         bool CreateWallet(int id, Wallet wallet);
         Task<bool> CreateWalletAsync(int id, Wallet wallet);
 
-        bool DeleteWalletByObjectId(string objectId);
-        Task<bool> DeleteWalletByObjectIdAsync(string objectId);
-
         bool DeleteWallet(string objectId);
         Task<bool> DeleteWalletAsync(string objectId);
 

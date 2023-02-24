@@ -4,6 +4,7 @@ using Coinbase.Api.Data;
 using Coinbase.Api.EventProcessing;
 using Coinbase.Api.Helpers;
 using Coinbase.Api.Repositories;
+using Coinbase.Api.Services;
 using System.Text.Json.Serialization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,7 @@ services.AddControllers().AddJsonOptions(role =>
 });
 
 // Add MessageBusSubscriber
-services.AddHostedService<RmqMessageBusConsumer>();
+// services.AddHostedService<RmqMessageBusConsumer>();
 
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -36,6 +37,8 @@ services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"))
 services.AddScoped<IJwtUtils, JwtUtils>();
 services.AddScoped<IOwnerRepository, OwnerRepository>();
 services.AddScoped<IWalletRepository, WalletRepository>();
+services.AddTransient<IOwnerService, OwnerService>();
+// services.AddTransient<IWalletService, WalletService>();
 
 services.AddSingleton<IEventProcessor, EventProcessor>();
 

@@ -1,9 +1,9 @@
 using Coinbase.Api.Entities;
 using Coinbase.Api.Models;
-using Coinbase.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Coinbase.Api.Authorization;
+using Coinbase.Api.Services;
 
 namespace Coinbase.Api.Controllers
 {
@@ -12,12 +12,12 @@ namespace Coinbase.Api.Controllers
     [Route("coinbase/owner")]
     public class OwnerController : ControllerBase
     {
-        private readonly IOwnerRepository _ownerRepository;
+        private readonly IOwnerService _ownerService;
         private readonly IMapper _mapper;
 
-        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper)
+        public OwnerController(IOwnerService ownerService, IMapper mapper)
         {
-            _ownerRepository = ownerRepository;
+            _ownerService = ownerService;
             _mapper = mapper;
         }
 
@@ -25,14 +25,14 @@ namespace Coinbase.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OwnerResponse>>> GetAllOwnersAsync()
         {
-            IEnumerable<Owner> owners = await _ownerRepository.GetAllOwnersAsync();
+            IEnumerable<Owner> owners = await _ownerService.GetAllOwnersAsync();
             return Ok(_mapper.Map<IEnumerable<OwnerResponse>>(owners));
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<OwnerResponse>> GetOwnerByIdAsync(int id)
         {
-            Owner? owner = await _ownerRepository.GetOwnerByIdAsync(id);
+            Owner? owner = await _ownerService.GetOwnerByIdAsync(id);
             if (owner != null)
             {
                 return Ok(_mapper.Map<OwnerResponse>(owner));
@@ -46,7 +46,7 @@ namespace Coinbase.Api.Controllers
         {
             Owner owner = _mapper.Map<Owner>(coinbaseRequest);
 
-            if (await _ownerRepository.CreateOwnerAsync(owner))
+            if (await _ownerService.CreateOwnerAsync(owner))
             {
                 return Ok(_mapper.Map<OwnerResponse>(owner));
             }

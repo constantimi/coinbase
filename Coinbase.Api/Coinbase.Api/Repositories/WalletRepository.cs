@@ -135,35 +135,6 @@ namespace Coinbase.Api.Repositories
             return await SaveChangesAsync();
         }
 
-        public bool DeleteWalletByObjectId(string objectId)
-        {
-            if (!HelperWalletExists(objectId))
-            {
-                Wallet wallet = _context.Wallet.First(wallet => wallet.ObjectId == objectId);
-
-                _context.Remove(wallet);
-                return SaveChanges();
-            }
-
-            return false;
-        }
-
-        public async Task<bool> DeleteWalletByObjectIdAsync(string objectId)
-        {
-            if (!await HelperWalletExistsAsync(objectId))
-            {
-                Wallet? wallet = await _context.Wallet.FirstOrDefaultAsync(wallet => wallet.ObjectId == objectId);
-
-                if (wallet != null)
-                {
-                    _context.Remove(wallet);
-                    return await SaveChangesAsync();
-                }
-            }
-
-            return false;
-        }
-
         public bool HelperWalletExists(string id)
         {
             return _context.Wallet.Any(w => w.ObjectId == id);
