@@ -13,16 +13,19 @@ namespace Coinbase.Services.Identity.Repositories
             _context = context;
         }
 
+        public Owner GetOwnerById(int id)
+        {
+            return _context.Owners.First(o => o.Id == id);
+        }
+
         public async Task<Owner> GetOwnerByIdAsync(int id)
         {
-            Owner owner = await _context.Owners.FirstOrDefaultAsync(o => o.Id == id).ConfigureAwait(false);
+            return await _context.Owners.FirstAsync(o => o.Id == id).ConfigureAwait(false);
+        }
 
-            if (owner == null)
-            {
-                throw new KeyNotFoundException("User not found");
-            }
-
-            return owner;
+        public IEnumerable<Owner> GetAllOwners()
+        {
+            return _context.Owners.ToList();
         }
 
         public async Task<IEnumerable<Owner>> GetAllOwnersAsync()
@@ -30,9 +33,20 @@ namespace Coinbase.Services.Identity.Repositories
             return await _context.Owners.ToListAsync();
         }
 
+        public bool CreateOwner(Owner owner)
+        {
+            if (!HelperOwnerExists(owner.Username))
+            {
+                _context.Add(owner);
+                return SaveChanges();
+            }
+
+            return false;
+        }
+
         public async Task<bool> CreateOwnerAsync(Owner owner)
         {
-            if (!await OwnerExists(owner.Username))
+            if (!await HelperOwnerExistsAsync(owner.Username))
             {
                 _context.Add(owner);
                 return await SaveChangesAsync();
@@ -41,16 +55,33 @@ namespace Coinbase.Services.Identity.Repositories
             return false;
         }
 
-        public async Task<bool> DeleteOwner(Owner owner)
+        public bool DeleteOwner(Owner owner)
+        {
+            _context.Remove(owner);
+            return SaveChanges();
+        }
+
+        public async Task<bool> DeleteOwnerAsync(Owner owner)
         {
             _context.Remove(owner);
             return await SaveChangesAsync();
         }
 
-        public async Task<bool> UpdateOwner(Owner owner)
+        public bool UpdateOwner(Owner owner)
+        {
+            _context.Update(owner);
+            return SaveChanges();
+        }
+
+        public async Task<bool> UpdateOwnerAsync(Owner owner)
         {
             _context.Update(owner);
             return await SaveChangesAsync();
+        }
+
+        public bool SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
         }
 
         public async Task<bool> SaveChangesAsync()
@@ -58,9 +89,13 @@ namespace Coinbase.Services.Identity.Repositories
             return await _context.SaveChangesAsync() >= 0;
         }
 
-        public async Task<bool> OwnerExists(string username)
+        private bool HelperOwnerExists(string username)
         {
+            return _context.Owners.Any(o => o.Username == username);
+        }
 
+        private async Task<bool> HelperOwnerExistsAsync(string username)
+        {
             return await _context.Owners.AnyAsync(o => o.Username == username);
         }
     }

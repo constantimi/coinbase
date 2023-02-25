@@ -32,7 +32,9 @@ services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"))
 // configure DI for application services
 services.AddScoped<IJwtUtils, JwtUtils>();
 services.AddScoped<IIdentityService, IdentityService>();
+
 services.AddScoped<IOwnerRepository, OwnerRepository>();
+services.AddTransient<IOwnerService, OwnerService>();
 
 services.AddHttpClient<IIdentityDataClient, HttpIdentityDataClient>();
 services.AddSingleton<IRmqMessageBusClient, RmqMessageBusClient>();

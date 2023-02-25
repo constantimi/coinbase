@@ -1,8 +1,8 @@
 using Coinbase.Services.Identity.Entities;
 
-namespace Coinbase.Services.Identity.Repositories
+namespace Coinbase.Services.Identity.Services
 {
-    public interface IOwnerRepository
+    public interface IOwnerService
     {
         Owner GetOwnerById(int id);
         Task<Owner> GetOwnerByIdAsync(int id);
