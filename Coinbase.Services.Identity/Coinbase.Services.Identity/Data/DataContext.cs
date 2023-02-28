@@ -15,9 +15,16 @@ namespace Coinbase.Services.Identity.Helpers
             _configuration = configuration;
         }
 
+        public DataContext(DbContextOptions options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+            }
         }
 
         public override int SaveChanges()

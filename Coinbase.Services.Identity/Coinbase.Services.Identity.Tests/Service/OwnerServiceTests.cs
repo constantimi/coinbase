@@ -16,8 +16,8 @@ namespace Coinbase.Services.Identity.Tests.Controllers
             Mock.Arrange(() => ownerRepository.GetAllOwners())
                 .Returns(new List<Owner>
                 {
-                   new Owner { Id = 0, FirstName = "", LastName = "", Email = "", Username = "u0", PasswordHash = "pass0", Role = Role.Admin },
-                   new Owner { Id = 1, FirstName = "", LastName = "", Email = "", Username = "u1", PasswordHash = "pass1", Role = Role.Admin }
+                   new Owner { Id = 0, FirstName = "", LastName = "", Email = "", Username = "u0", PasswordHash = BCrypt.Net.BCrypt.HashPassword("pass0"), Role = Role.Admin },
+                   new Owner { Id = 1, FirstName = "", LastName = "", Email = "", Username = "u1", PasswordHash = BCrypt.Net.BCrypt.HashPassword("pass1"), Role = Role.Admin }
                 });
 
             var ownerService = new OwnerService(ownerRepository);
@@ -55,7 +55,7 @@ namespace Coinbase.Services.Identity.Tests.Controllers
             var ownerRepository = Mock.Create<IOwnerRepository>();
 
             Mock.Arrange(() => ownerRepository.GetOwnerById(1))
-                .Returns((int id) => new Owner { Id = 1, FirstName = "", LastName = "", Email = "", Username = "u1", PasswordHash = "pass1", Role = Role.Admin });
+                .Returns((int id) => new Owner { Id = 1, FirstName = "", LastName = "", Email = "", Username = "u1", PasswordHash = BCrypt.Net.BCrypt.HashPassword("pass1"), Role = Role.Admin });
 
             var ownerService = new OwnerService(ownerRepository);
             const int requestedId = 1;
@@ -94,7 +94,7 @@ namespace Coinbase.Services.Identity.Tests.Controllers
             var ownerRepository = Mock.Create<IOwnerRepository>();
 
             Mock.Arrange(() => ownerRepository.GetOwnerById(0))
-                .Returns((int id) => new Owner { Id = 0, FirstName="", LastName="", Email = "", Username = "u0", PasswordHash="pass0", Role = Role.Admin });
+                .Returns((int id) => new Owner { Id = 0, FirstName="", LastName="", Email = "", Username = "u0", PasswordHash = BCrypt.Net.BCrypt.HashPassword("pass0"), Role = Role.Admin });
 
             var ownerService = new OwnerService(ownerRepository);
             const int requestedId = 1;
