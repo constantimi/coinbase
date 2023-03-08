@@ -1,3 +1,3 @@
 # Coinbase-Microservices
 
-[![SonarCloud](https://github.com/constantimi/Coinbase-Microservices/actions/workflows/sonarcloud.yml/badge.svg?branch=master&event=push)](https://github.com/constantimi/Coinbase-Microservices/actions/workflows/sonarcloud.yml)
+Crypto wallet centralized system using Microservices. It faciltates sending and receiving user's crypto wallets, giving the user a single storage wallet solution. 
