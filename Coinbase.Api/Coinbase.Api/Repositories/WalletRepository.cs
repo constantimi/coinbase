@@ -78,11 +78,7 @@ namespace Coinbase.Api.Repositories
 
         public async Task<Wallet> GetWalletByObjectIdAsync(string objectId)
         {
-            Wallet? wallet = await _context.Wallet.FirstOrDefaultAsync(w => w.ObjectId == objectId);
-            if (wallet == null)
-            {
-                throw new KeyNotFoundException("User not found");
-            }
+            Wallet? wallet = await _context.Wallet.FirstOrDefaultAsync(w => w.ObjectId == objectId) ?? throw new KeyNotFoundException("User not found");
 
             return wallet;
         }

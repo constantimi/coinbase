@@ -16,7 +16,7 @@ namespace Coinbase.Api.Entities
         public string BlockchainType { get; set; } = null!;
 
         [Required]
-        public string WalletType { get; set;} = null!;
+        public string WalletType { get; set; } = null!;
 
         [Required]
         public string RecoveryPhrase { get; set; } = null!;
